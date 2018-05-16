@@ -24,6 +24,24 @@ const kayn = Kayn(config.leagueToken)({
     },
 });
 
+function getSeason (seasonId) {
+	switch(seasonId) {
+		case 0: return "Preseason 3"; break;
+		case 1: return "Season 3"; break;
+		case 2: return "Preseason 2014"; break;
+		case 3: return "Season 2014"; break;
+		case 4: return "Preseason 2015"; break;
+		case 5: return "Season 2015"; break;
+		case 6: return "Preseason 2016"; break;
+		case 7: return "Season 2016"; break;
+		case 8: return "Preseason 2017"; break;
+		case 9: return "Season 2017"; break;
+		case 10: return "Preseason 2018"; break;
+		case 11: return "Season 2018"; break;
+		default: return "Season not found."; 		
+	}
+}
+
 function giveName (champId){ 
 	switch (champId) {
 	case 266: return "Aatrox"; break;
@@ -238,7 +256,9 @@ function getRecent(summonerName, regionName, msg) {
 				msg.reply.text('Summoner has not played any matches.');
 			}
 			for (var i = 0; i < 11; i++) {
-				output  += "\n" + getQueueType(matchlist.matches[i].queue) + " " + matchlist.matches[i].lane + " " + matchlist.matches[i].role + " " + giveName(matchlist.matches[i].champion);
+				output  += "\n" + getSeason(matchlist.matches[i].season) + " " + 
+					getQueueType(matchlist.matches[i].queue) + " " + matchlist.matches[i].lane + " " 
+					+ matchlist.matches[i].role + " " + giveName(matchlist.matches[i].champion);
 			}
 			msg.reply.text(output, {asReply: true});
 		});
