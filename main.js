@@ -281,31 +281,19 @@ bot.on(/^\/eu (.+)$/, (msg, props) => {
     getStats(summonerN, REGIONS.EUROPE_WEST, msg);
 });
 
-
-
-
-bot.on(/^\/rank (.+)$/, (msg, props) => {
-	const summonerName = props.match[1]; 
-    kayn.Summoner.by.name(summonerName).callback(function(err,summoner) {
-    	if (err) {
-    		msg.reply.text('Summoner not found.', {asReply: true});
-    	}
-
-    	kayn.LeaguePositions.by.summonerID(summoner.id).callback(function(err, posSet) {
-    		var output = "Ranks in all queue types:";
-    		posSet.forEach(function callback(curr) {
-    			var queue = curr.queueType.replace(/_/g, ' ');
-    			output += "\n" + queue + ": " + curr.tier + " " + curr.rank;
-    		})
-    		msg.reply.text(output, {asReply: true});
-    	});
-    });
-
-});
-
 bot.on(/^\/recentna (.+)$/, (msg, props) => {
 	const summonerName = props.match[1];
 	getRecent(summonerName, REGIONS.NORTH_AMERICA, msg);
+});
+
+bot.on(/^\/recentkr (.+)$/, (msg, props) => {
+	const summonerName = props.match[1];
+	getRecent(summonerName, REGIONS.KOREA, msg);
+});
+
+bot.on(/^\/recenteu (.+)$/, (msg, props) => {
+	const summonerName = props.match[1];
+	getRecent(summonerName, REGIONS.EUROPE_WEST, msg);
 });
 
 
