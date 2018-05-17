@@ -202,9 +202,7 @@ function getStats(summonerN, regionName, msg) {
 	    			var queue = curr.queueType.replace(/_/g, ' ');
 	    			posOutput += "\n" + queue + ": " + curr.tier + " " + curr.rank;
 	    		});
-    		}
-
-    		
+    		}    		
     	
     	kayn.ChampionMastery.list(summoner.id).region(regionName).callback(function(err,champlist) {
     		
@@ -251,7 +249,7 @@ function getRecent(summonerName, regionName, msg) {
 			msg.reply.text('Summoner not found.', {asReply: true});
 		}
 
-		kayn.Matchlist.by.accountID(summoner.accountId).callback(function(err, matchlist) {
+		kayn.Matchlist.by.accountID(summoner.accountId).region(regionName).callback(function(err, matchlist) {
 			if (err) {
 				msg.reply.text('Summoner has not played any matches.');
 			}
@@ -264,7 +262,7 @@ function getRecent(summonerName, regionName, msg) {
 		});
 	});
 }
-
+//commands
 bot.on(/^\/user (.+)$/, (msg, props) => {
     const summonerN = props.match[1]; 
     getStats(summonerN, REGIONS.NORTH_AMERICA, msg);
