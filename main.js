@@ -230,7 +230,7 @@ function getStats(summonerN, regionName, msg) {
     })   
     
 }
-
+//need to add other queue types
 function getQueueType (queueId) {
 	switch(queueId) {
 		case 400: return "5v5 DRAFT PICK"; break;
@@ -242,24 +242,52 @@ function getQueueType (queueId) {
 	}
 }
 
-function getRecent(summonerName, regionName, msg) {
-	var output = summonerName + " " + "Recent matches played: ";
+function getWin (summonerName, sumId, accountID , regionName , matchNum, msg) {
+	kayn.Matchlist.by.accountID(accountID).region(regionName).callback(function(err, matchlist) {
+			if (err) {
+				msg.reply.text('Summoner has not played any matches.', {asReply: true});
+			}
+			var output = (matchNum + 1);				
+			kayn.Match.get(matchlist.matches[matchNum].gameId).region(regionName).callback(function(err, match) {
+				var partId = "";
+				output  += "\n" + getSeason(matchlist.matches[0].season) + " " + 
+				getQueueType(matchlist.matches[matchNum].queue) + " " + matchlist.matches[matchNum].lane + " " 
+				+ matchlist.matches[matchNum].role + " " + giveName(matchlist.matches[matchNum].champion); //+ " " + getWin1(matchlist.matches[i].gameId, sumId, regionName);
+					
+				for (var i = 0; i < match.participantIdentities.length; i++) {
+					if (match.participantIdentities[i].player.summonerId == sumId) {
+						partId = match.participantIdentities[i].participantId;
+					}					
+				}
+					
+				if (partId == "") {
+					return msg.reply.text('Summoner not found in match', {asReply: true});
+				}
+
+				for (var i = 0; i < match.participants.length; i++) {
+					if (match.participants[i].participantId == partId) {
+						if (match.participants[i].stats.win) {
+							output += " - WIN";
+						}
+						else {
+							output += " - LOSS";
+						}
+					}
+				}
+					msg.reply.text(output, {asReply: false});
+			});	
+		
+	});
+}
+
+function getRecent(summonerName, regionName, msg) {	
 	kayn.Summoner.by.name(summonerName).region(regionName).callback(function(err, summoner) {
 		if(err) {
 			msg.reply.text('Summoner not found.', {asReply: true});
-		}
-
-		kayn.Matchlist.by.accountID(summoner.accountId).region(regionName).callback(function(err, matchlist) {
-			if (err) {
-				msg.reply.text('Summoner has not played any matches.');
-			}
-			for (var i = 0; i < 11; i++) {
-				output  += "\n" + getSeason(matchlist.matches[i].season) + " " + 
-					getQueueType(matchlist.matches[i].queue) + " " + matchlist.matches[i].lane + " " 
-					+ matchlist.matches[i].role + " " + giveName(matchlist.matches[i].champion);
-			}
-			msg.reply.text(output, {asReply: true});
-		});
+		}			
+		for (var index = 0; index < 5; index++) {
+			 getWin(summonerName, summoner.id, summoner.accountId, regionName, index, msg);
+		}	
 	});
 }
 //commands
