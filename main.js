@@ -241,6 +241,23 @@ function getQueueType (queueId) {
 	}
 }
 
+function convertMin (numSeconds) {
+	return Math.floor(numSeconds / 60) + " minutes";
+}
+function secondsLeft (numSeconds) {
+	var output = "";
+	var remainder = numSeconds % 60;
+	if (remainder != 0) {
+		output += (remainder);
+		if (remainder != 1) {
+			output += " seconds";
+		}
+		else {
+			output += " second";
+		}
+		return output;
+	}
+}
 function getWin (summonerName, sumId, accountID , regionName , matchNum, msg) {
 	kayn.Matchlist.by.accountID(accountID).region(regionName).callback(function(err, matchlist) {
 			if (err) {
@@ -251,9 +268,10 @@ function getWin (summonerName, sumId, accountID , regionName , matchNum, msg) {
 				var partId = "";
 				console.log(matchlist.matches[matchNum].lane);
 				console.log(match.gameDuration);
-				output  += "\n" + getSeason(matchlist.matches[0].season) + " " + 
+				output  += "\n" + getSeason(matchlist.matches[matchNum].season) + " " + 
 				getQueueType(matchlist.matches[matchNum].queue) + " " + matchlist.matches[matchNum].role +
-				 " " + giveName(matchlist.matches[matchNum].champion); 
+				 " " + giveName(matchlist.matches[matchNum].champion) + "\n " + convertMin(match.gameDuration) 
+				 + " " + secondsLeft(match.gameDuration); 
 					
 				for (var i = 0; i < match.participantIdentities.length; i++) {
 					if (match.participantIdentities[i].player.summonerId == sumId) {
@@ -262,7 +280,7 @@ function getWin (summonerName, sumId, accountID , regionName , matchNum, msg) {
 				}
 					
 				if (partId == "") {
-					return msg.reply.text('Summoner not found in match', {asReply: true});
+					return msg.reply.text('Participant not found in match', {asReply: true});
 				}
 
 				for (var i = 0; i < match.participants.length; i++) {
@@ -276,7 +294,7 @@ function getWin (summonerName, sumId, accountID , regionName , matchNum, msg) {
 						output += " " + match.participants[i].stats.kills + "/" 
 						+ match.participants[i].stats.deaths + "/" + match.participants[i].stats.assists;
 
-						output += "\n" + "Largest Killing Spree: " + match.participants[i].stats.largestKillingSpree + " kills";
+						output += "\n" + "Largest Killing Spree: " + match.participants[i].stats.largestKillingSpree;
 						output += "\n" + "Greatest Multi-kill: " + match.participants[i].stats.largestMultiKill;
 						output += "\n" + "Pentakills: " + match.participants[i].stats.pentaKills;
 						output += "\n" + "CS: " + match.participants[i].stats.totalMinionsKilled;
