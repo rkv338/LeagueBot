@@ -182,8 +182,7 @@ function giveName (champId){
 }
 
 function getStats(summonerN, regionName, msg) {
-	var posOutput = summonerN + "";
-	console.log(posOutput);
+	var posOutput = summonerN + "";	
 	var masteryOutput = "";
 	var finalOutput = "";
 	
@@ -250,9 +249,11 @@ function getWin (summonerName, sumId, accountID , regionName , matchNum, msg) {
 			var output = (matchNum + 1);				
 			kayn.Match.get(matchlist.matches[matchNum].gameId).region(regionName).callback(function(err, match) {
 				var partId = "";
+				console.log(matchlist.matches[matchNum].lane);
+				console.log(match.gameDuration);
 				output  += "\n" + getSeason(matchlist.matches[0].season) + " " + 
-				getQueueType(matchlist.matches[matchNum].queue) + " " + matchlist.matches[matchNum].lane + " " 
-				+ matchlist.matches[matchNum].role + " " + giveName(matchlist.matches[matchNum].champion); //+ " " + getWin1(matchlist.matches[i].gameId, sumId, regionName);
+				getQueueType(matchlist.matches[matchNum].queue) + " " + matchlist.matches[matchNum].role +
+				 " " + giveName(matchlist.matches[matchNum].champion); 
 					
 				for (var i = 0; i < match.participantIdentities.length; i++) {
 					if (match.participantIdentities[i].player.summonerId == sumId) {
@@ -269,12 +270,19 @@ function getWin (summonerName, sumId, accountID , regionName , matchNum, msg) {
 						if (match.participants[i].stats.win) {
 							output += " - WIN";
 						}
-						else {
+						else if (!match.participants[i].stats.win) {
 							output += " - LOSS";
 						}
+						output += " " + match.participants[i].stats.kills + "/" 
+						+ match.participants[i].stats.deaths + "/" + match.participants[i].stats.assists;
+
+						output += "\n" + "Largest Killing Spree: " + match.participants[i].stats.largestKillingSpree + " kills";
+						output += "\n" + "Greatest Multi-kill: " + match.participants[i].stats.largestMultiKill;
+						output += "\n" + "Pentakills: " + match.participants[i].stats.pentaKills;
+						output += "\n" + "CS: " + match.participants[i].stats.totalMinionsKilled;
 					}
 				}
-					msg.reply.text(output, {asReply: false});
+				msg.reply.text(output, {asReply: false});
 			});	
 		
 	});
