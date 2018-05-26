@@ -177,6 +177,7 @@ function giveName (champId){
     case 267: return "Nami"; break;
     case 59: return "Jarvan IV"; break;
     case 81: return "Ezreal"; break;
+    default: console.log(champId + " new champion?"); //if new champion is added, I will know and can add that new champion
 	}
 
 }
@@ -317,22 +318,65 @@ function getRecent(summonerName, regionName, msg) {
 	});
 }
 //commands
-bot.on(/^\/user (.+)$/, (msg, props) => {
+
+//Champion mastery information as well as rank in all queue types
+//DOES NOT INCLUDE ROTATING GAME MODES
+bot.on(/^\/na (.+)$/, (msg, props) => {
     const summonerN = props.match[1]; 
     getStats(summonerN, REGIONS.NORTH_AMERICA, msg);
 });
-
 
 bot.on(/^\/kr (.+)$/, (msg, props) => {
     const summonerN = props.match[1]; 
     getStats(summonerN, REGIONS.KOREA, msg);
 });
 
-bot.on(/^\/eu (.+)$/, (msg, props) => {
+bot.on(/^\/euw (.+)$/, (msg, props) => {
     const summonerN = props.match[1]; 
     getStats(summonerN, REGIONS.EUROPE_WEST, msg);
 });
 
+bot.on(/^\/eue (.+)$/, (msg, props) => {
+    const summonerN = props.match[1]; 
+    getStats(summonerN, REGIONS.EUROPE, msg);
+});
+
+bot.on(/^\/br (.+)$/, (msg, props) => {
+    const summonerN = props.match[1]; 
+    getStats(summonerN, REGIONS.BRAZIL, msg);
+});
+
+bot.on(/^\/lan (.+)$/, (msg, props) => {
+    const summonerN = props.match[1]; 
+    getStats(summonerN, REGIONS.LATIN_AMERICA_NORTH, msg);
+});
+
+bot.on(/^\/las (.+)$/, (msg, props) => {
+    const summonerN = props.match[1]; 
+    getStats(summonerN, REGIONS.LATIN_AMERICA_SOUTH, msg);
+});
+
+bot.on(/^\/oc (.+)$/, (msg, props) => {
+    const summonerN = props.match[1]; 
+    getStats(summonerN, REGIONS.OCEANIA, msg);
+});
+
+bot.on(/^\/ra (.+)$/, (msg, props) => {
+    const summonerN = props.match[1]; 
+    getStats(summonerN, REGIONS.RUSSIA, msg);
+});
+
+bot.on(/^\/jp (.+)$/, (msg, props) => {
+    const summonerN = props.match[1]; 
+    getStats(summonerN, REGIONS.JAPAN, msg);
+});
+
+bot.on(/^\/tr (.+)$/, (msg, props) => {
+    const summonerN = props.match[1]; 
+    getStats(summonerN, REGIONS.TURKEY, msg);
+});
+
+//recent match stats
 bot.on(/^\/recentna (.+)$/, (msg, props) => {
 	const summonerName = props.match[1];
 	getRecent(summonerName, REGIONS.NORTH_AMERICA, msg);
@@ -343,9 +387,49 @@ bot.on(/^\/recentkr (.+)$/, (msg, props) => {
 	getRecent(summonerName, REGIONS.KOREA, msg);
 });
 
-bot.on(/^\/recenteu (.+)$/, (msg, props) => {
+bot.on(/^\/recenteuw (.+)$/, (msg, props) => {
 	const summonerName = props.match[1];
 	getRecent(summonerName, REGIONS.EUROPE_WEST, msg);
+});
+
+bot.on(/^\/recenteue (.+)$/, (msg, props) => {
+	const summonerName = props.match[1];
+	getRecent(summonerName, REGIONS.EUROPE, msg);
+});
+
+bot.on(/^\/recentlas (.+)$/, (msg, props) => {
+	const summonerName = props.match[1];
+	getRecent(summonerName, REGIONS.LATIN_AMERICA_SOUTH, msg);
+});
+
+bot.on(/^\/recentlan (.+)$/, (msg, props) => {
+	const summonerName = props.match[1];
+	getRecent(summonerName, REGIONS.LATIN_AMERICA_NORTH, msg);
+});
+
+bot.on(/^\/recentjp (.+)$/, (msg, props) => {
+	const summonerName = props.match[1];
+	getRecent(summonerName, REGIONS.JAPAN, msg);
+});
+
+bot.on(/^\/recentoc (.+)$/, (msg, props) => {
+	const summonerName = props.match[1];
+	getRecent(summonerName, REGIONS.OCEANIA, msg);
+});
+
+bot.on(/^\/recentra (.+)$/, (msg, props) => {
+	const summonerName = props.match[1];
+	getRecent(summonerName, REGIONS.RUSSIA, msg);
+});
+
+bot.on(/^\/recenttr (.+)$/, (msg, props) => {
+	const summonerName = props.match[1];
+	getRecent(summonerName, REGIONS.TURKEY, msg);
+});
+
+bot.on(/^\/recentbr (.+)$/, (msg, props) => {
+	const summonerName = props.match[1];
+	getRecent(summonerName, REGIONS.BRAZIL, msg);
 });
 
 
