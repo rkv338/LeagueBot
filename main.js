@@ -267,11 +267,9 @@ function getWin (summonerName, sumId, accountID , regionName , matchNum, msg) {
 			}
 			var output = (matchNum + 1);				
 			kayn.Match.get(matchlist.matches[matchNum].gameId).region(regionName).callback(function(err, match) {
-				var partId = "";
-				console.log(matchlist.matches[matchNum].lane);
-				console.log(match.gameDuration);
+				var partId = "";				
 				output  += "\n" + getSeason(matchlist.matches[matchNum].season) + " " + 
-				getQueueType(matchlist.matches[matchNum].queue) + " " + matchlist.matches[matchNum].role +
+				getQueueType(matchlist.matches[matchNum].queue) + " " + matchlist.matches[matchNum].lane +
 				 " " + giveName(matchlist.matches[matchNum].champion) + "\n " + convertMin(match.gameDuration) 
 				 + " " + secondsLeft(match.gameDuration); 
 					
