@@ -177,6 +177,7 @@ function giveName (champId){
     case 267: return "Nami"; break;
     case 59: return "Jarvan IV"; break;
     case 81: return "Ezreal"; break;
+    case 555: return "Pyke"; break;
     default: console.log(champId + " new champion?"); //if new champion is added, I will know and can add that new champion
 	}
 
